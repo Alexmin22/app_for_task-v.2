@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Админ Кабинет</title>
+</head>
+<body>
+
+
+<div class="container">
+  <h1>Добро пожаловать в админ.страничку!</h1>
+
+  <form action="/auth/logout" method="POST">
+    <button type="submit">Logout</button>
+  </form>
+</div>
+<hr>
+
+<table>
+  <thead>
+
+  <tr>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Роль</th>
+    <th>задачи</th>
+  </tr>
+
+  <tbody>
+<tr th:each="pers:${employees}">
+  <td th:text="${pers.getFirstName()}"/>
+  <td th:text="${pers.getLastName()}"/>
+</tr>
+</tbody>
+  </thead>
+</table>
+
+</body>
+</html>

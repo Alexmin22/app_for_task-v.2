@@ -3,28 +3,29 @@ package com.example.app_for_task.util;
 import com.example.app_for_task.model.employee.Employee;
 import com.example.app_for_task.model.employee.Role;
 import com.example.app_for_task.services.EmployeeService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
+//@Component
 @RequiredArgsConstructor
 public class InitClass {
 
     private final EmployeeService employeeService;
 
 
+    //@PostConstruct
     public void createUser() {
 
-       // String firstName, String lastName, String password, Set<Role> setroles;
         Role role = new Role();
         role.setRole("ROLE_USER");
         Set<Role> set = new HashSet();
         set.add(role);
 
-        Employee employee = new Employee(1, "User", "Userov", "12345", set, null);
+        Employee employee = new Employee(1, "User", "Userov", "100", set, null);
 
         Role role2 = new Role();
         role2.setRole("ROLE_ADMIN");
@@ -36,6 +37,7 @@ public class InitClass {
         employeeService.create(employee);
         employeeService.create(admin);
 
+        System.out.println("Тестовые пользователи созданы");
 
     }
 }

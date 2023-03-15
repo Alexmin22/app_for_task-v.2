@@ -39,26 +39,16 @@ public class ApplicationConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .cors()
-                .and()
-                .httpBasic().disable()
+                //.cors()
+                //.and()
+                //.httpBasic().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .exceptionHandling()
-                .authenticationEntryPoint((request, response, authException) -> {
-                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                    response.getWriter().write("Unauthorized");
-                })
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    response.setStatus(HttpStatus.FORBIDDEN.value());
-                    response.getWriter().write("Unauthorized");
-                })
-                .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/login", "/").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .requestMatchers("/login", "/").permitAll()
+                //.anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .successHandler(successUserHandler).permitAll()

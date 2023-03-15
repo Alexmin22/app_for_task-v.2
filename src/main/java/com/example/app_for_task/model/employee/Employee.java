@@ -35,7 +35,6 @@ public class Employee implements UserDetails {
     @Column(name = "password")
     private String  password;
 
-    @Fetch(FetchMode.JOIN)
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "Employee_Role",

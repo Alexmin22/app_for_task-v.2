@@ -13,8 +13,4 @@ public class AppForTaskApplication {
 		SpringApplication.run(AppForTaskApplication.class, args);
 	}
 
-//	@Bean
-//	public ModelMapper getModelMapper() {
-//		return new ModelMapper();
-//	}
 }

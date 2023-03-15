@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
@@ -31,13 +33,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public Employee create(Employee employee) {
+    public void create(Employee employee) {
 
         if (employeeRepository.findEmployeeByFirstName(employee.getFirstName()).isPresent()) {
             throw new IllegalStateException("Пользователь с таким именем уже существует");
         }
 
-        return update(employee);
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        employeeRepository.save(employee);
 
     }
 
@@ -54,6 +57,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void delete(int id) {
         employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 
 }
