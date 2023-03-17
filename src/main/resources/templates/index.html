@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
 </head>
 <body>
 
+<div align="center">
 <h1>Добро пожаловать!</h1>
+<br>
+<h2><a th:href="@{/admin/login}">Войти как админ</a></h2>
+<br><br>
+<h2><a th:href="@{/employee/login}">Войти как работник</a></h2>
+</div>
+
 </body>
 </html>

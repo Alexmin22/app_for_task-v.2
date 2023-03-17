@@ -1,7 +1,7 @@
 package com.example.app_for_task.model.employee;
 
 import com.example.app_for_task.model.tasks.Task;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,9 +35,10 @@ public class Employee implements UserDetails {
     @Column(name = "password")
     private String  password;
 
+    @Fetch(FetchMode.JOIN)
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
-            name = "Employee_Role",
+            name = "employee_Role",
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
@@ -45,7 +46,7 @@ public class Employee implements UserDetails {
     @Fetch(FetchMode.JOIN)
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
-            name = "Employee_Task",
+            name = "employee_Task",
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )

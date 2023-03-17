@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>страница работника</title>
+</head>
+<body>
+
+<div align="center">
+<h1>Добро пожаловать!
+    <b>[[${#request.userPrincipal.principal.username}]]</b>
+</h1>
+
+<br>
+    <form th:action="@{/user/logout}" method="post">
+        <input type="submit" value="logout"/>
+    </form>
+</div>
+
+</body>
+</html>

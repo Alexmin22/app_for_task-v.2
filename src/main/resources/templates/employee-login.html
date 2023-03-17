@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin login</title>
+</head>
+<body>
+
+<div align="center">
+<h1>Вход работников</h1>
+<br>
+
+<form th:action="@{/employee/login}" method="post">
+    <table>
+        <tr>
+            <td>Введите имя:</td>
+            <td><input type="text" name="firstName" required/>
+        </tr>
+        <br>
+
+        <tr>
+            <td>Введите пароль:</td>
+            <td><input type="password" name="password" required/>
+        </tr>
+        <br>
+
+        <tr>
+            <td colspan="2" align="center"><input type="submit" value="войти"/></td>
+        </tr>
+    </table>
+</form>
+</div>
+
+</body>
+</html>

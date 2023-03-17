@@ -1,6 +1,6 @@
 package com.example.app_for_task.model.tasks;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 

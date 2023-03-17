@@ -4,11 +4,11 @@ import com.example.app_for_task.dto.EmployeeDTO;
 import com.example.app_for_task.dto.EmployeeDTOMapper;
 import com.example.app_for_task.model.employee.Employee;
 import com.example.app_for_task.services.EmployeeService;
-import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Controller
@@ -26,12 +26,12 @@ public class AuthController {
 
     }
 
-    @GetMapping("/admin")
-    public String showEmployees(Model model) {
-        model.addAttribute("employees", list);
-
-        return "admin";
-    }
+//    @GetMapping("/admin")
+//    public String showEmployees(Model model) {
+//        model.addAttribute("employees", list);
+//
+//        return "admin";
+//    }
 
 //    @GetMapping("/login")
 //    public String getLoginPage() {
@@ -50,15 +50,38 @@ public class AuthController {
 //        return employeeDTOMapper.inDtoMap(employee);
 //    }
 
-    @GetMapping("/hello")
+    @GetMapping("")
     public String hello() {
-        return null;
+        return "index";
     }
 
-    @GetMapping("/user")
-    public String user() {
-        return null;
+//    @GetMapping("/admin/login")
+//    public String adminLogin() {
+//        return "admin-login";
+//    }
+
+    @GetMapping("/admin/logout")
+    public String adminLogout() {
+        return "index";
     }
 
+    @GetMapping("/admin/home")
+    public String adminHome() {
+        return "admin-home";
+    }
 
+    @GetMapping("/employee/login")
+    public String emplLogin() {
+        return "employee-login";
+    }
+
+    @GetMapping("/employee/logout")
+    public String emplLogout() {
+        return "index";
+    }
+
+    @GetMapping("/employee/home")
+    public String emplHome() {
+        return "employee-home";
+    }
 }
