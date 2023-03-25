@@ -8,11 +8,10 @@
 
 <div align="center">
 <h1>Добро пожаловать!
-    <b>[[${#request.userPrincipal.principal.username}]]</b>
 </h1>
 
 <br>
-    <form th:action="@{/user/logout}" method="post">
+    <form th:action="@{/logout}" method="post">
         <input type="submit" value="logout"/>
     </form>
 </div>

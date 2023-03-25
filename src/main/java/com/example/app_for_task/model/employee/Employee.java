@@ -2,83 +2,102 @@ package com.example.app_for_task.model.employee;
 
 import com.example.app_for_task.model.tasks.Task;
 import javax.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+
+import jakarta.validation.constraints.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+@Table(name = "employees")
 @Entity
-@Table(name = "employee")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Employee implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id", nullable = false)
+    @Column(name = "id")
     private int id;
-    @NotEmpty(message = "Заполните поле")
-    @Column(name = "first_name")
-    private String firstName;
-    @NotEmpty(message = "Заполните поле")
-    @Column(name = "last_name")
-    private String lastName;
-    @NotEmpty(message = "Заполните поле")
-    @Column(name = "password")
-    private String  password;
 
-    @Fetch(FetchMode.JOIN)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Column(name = "password")
+    @NotNull
+    private String password;
+
+    @Column(unique = true, name = "email")
+    @Email
+    @NotNull
+    private String email;
+
+    @Column(name = "firstName")
+    @NotEmpty(message = "Заполните имя")
+    @Size(min = 2, max = 20, message = "Введите имя от 2 до 20 символов")
+    private String firstName;
+
+    @Column(name = "lastName")
+    @NotEmpty(message = "Фамилия пуста")
+    @Size(min = 2, max = 20, message = "Введите фамилию от 2 до 20 символов")
+    private String lastName;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
+
+    public Employee(String password, String email, String firstName, String lastName, Role role) {
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
-            name = "employee_Role",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roleSet;
-    @Fetch(FetchMode.JOIN)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "employee_Task",
-            joinColumns = @JoinColumn(name = "employee_id"),
+            name = "Employees_Tasks",
+            joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )
     private List<Task> taskList;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roleSet;
-    }
-
     @Override
     public String getUsername() {
-        return getFirstName();
+        return email;
     }
-
+    @Override
+    public String getPassword() {
+        return password;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return  role.getAuthorities();
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
     @Override
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee user = (Employee) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 }

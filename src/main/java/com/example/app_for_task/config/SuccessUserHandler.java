@@ -2,6 +2,7 @@ package com.example.app_for_task.config;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +18,12 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException {
 
-        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+        Set<String> perm = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
-        if (roles.contains("ROLE_ADMIN")) {
+        if (perm.contains("tasks:create")) {
             httpServletResponse.sendRedirect("/admin/home");
         } else {
-            httpServletResponse.sendRedirect("/user/home");
+            httpServletResponse.sendRedirect("/employee/home");
         }
     }
 }

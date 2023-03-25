@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleafe.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактировать Работника</title>
+</head>
+<body>
+
+<h1>Здесь вы можете отредактировать информацию о сотруднике</h1>
+<br>
+
+<form action="#" th:action="@{/admin/{id}(id=${employee.getId()})}" th:object="${employee}" th:method="patch">
+  <ul>
+    <li><td>Имя сотрудника:</td>
+      <td><input type="text" th:field="*{firstName}" /></td></li>
+
+    <br>
+    <li><td>Фамилия сотрудника:</td>
+      <td><input type="text" th:field="*{lastName}" /></td></li>
+
+    <br>
+    <li><td>Электронная почта:</td>
+      <td><input type="text" th:field="*{email}" /></td></li>
+
+    <br>
+    <td><button type="submit">Сохранить</button> </td>
+  </ul>
+</form>
+</body>
+</html>

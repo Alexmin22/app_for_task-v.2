@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleafe.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Добавить сотрудника</title>
+</head>
+<body>
+
+<h1>Здесь вы можете добавить нового сотрудника!</h1>
+<br>
+
+<form action="#" th:action="@{/admin/saveempl}" th:object="${employee}" method="get">
+  <ul>
+    <li><td>Имя сотрудника:</td>
+      <td><input type="text" th:field="*{firstName}" /></td></li>
+
+    <br>
+    <li><td>Фамилия сотрудника:</td>
+      <td><input type="text" th:field="*{lastName}" /></td></li>
+
+    <br>
+    <li><td>Электронная почта:</td>
+      <td><input type="text" th:field="*{email}" /></td></li>
+
+    <br>
+    <li><select th:field="*{role}">
+      <option th:each="oneRole : ${roles}"
+              th:value="${oneRole}"
+              th:text="#{${'роль сотрудника: ' + oneRole}}">роль сотрудника</option>
+    </select></li>
+
+    <br>
+    <td><button type="submit">Сохранить</button> </td>
+  </ul>
+</form>
+</body>
+</html>

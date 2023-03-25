@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ панель</title>
+</head>
+<body>
+
+<div align="center">
+    <h1>Добро пожаловать!</h1>
+    <br>
+
+    <a th:href="@{'home'}">Перейти к списку всех сотрудников</a>
+    <br>
+
+    <h2>Список всех актуальных заданий :</h2>
+
+    <a th:href="@{'createtask'}">Создать новое задание</a>
+    <br>
+
+    <form action="#" th:action="@{/admin/savetask}" th:object="${task}" method="get">
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название задачи</th>
+            <th>Срок исполнения</th>
+            <th>Исполнитель</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="task : ${tasks}">
+
+            <td th:text="${task.getId()}">ID</td>
+            <td th:text="${task.getTaskName()}">Название задачи</td>
+            <td th:text="${task.getDeadline()}">Срок исполнения</td>
+            <td><select th:field="*{employeeList}">
+                <option th:each="empl : ${task.getEmployeeList()}"
+                        th:value="${empl.getId()}"
+                        th:text="#{${empl.getLastName() + ' ' + empl.getFirstName() + ' ' + empl.getEmail()}}">
+                </option></select>
+            </td>
+
+            <td>
+                <a th:href="@{/admin/{id}(id=${task.getId()})/edittask}">Редактировать</a>
+
+                <form th:method="DELETE" th:action="@{/admin/task/{id}(id=${task.getId()})}">
+                    <input type="submit" value="УДАЛИТЬ ЗАДАНИЕ"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <br>
+    <br>
+
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="logout"/>
+    </form>
+</div>
+
+</body>
+</html>

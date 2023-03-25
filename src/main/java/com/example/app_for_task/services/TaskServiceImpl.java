@@ -1,5 +1,7 @@
 package com.example.app_for_task.services;
 
+import com.example.app_for_task.model.employee.Employee;
+import com.example.app_for_task.repositories.ConnectTaskWithEmployee;
 import com.example.app_for_task.repositories.NoSuchElementException;
 import com.example.app_for_task.model.tasks.Status;
 import com.example.app_for_task.model.tasks.Task;
@@ -14,39 +16,40 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final ConnectTaskWithEmployee connectTaskWithEmployee;
 
     @Override
     @Transactional
-    public Task create(Task task, int consId) {
-        task.setStatus(Status.SCHEDULED_TASK);
-        taskRepository.create(task);
-        taskRepository.connectConsWithTask(task.getId(), consId);
+    public Task create(Task task) {
+            task.setStatus(Status.SCHEDULED_TASK);
+            //task.getEmployeeList()
+                           // .forEach(e -> connectTaskWithEmployee.connectConsWithTask(task.getId(), e.getId()));
 
-        return task;
+        return taskRepository.save(task);
     }
 
     @Override
     @Transactional
     public Task update(Task task) {
-        if (task.getStatus() == null) {
+        if (!task.getStatus().equals(Status.SCHEDULED_TASK) || !task.getStatus().equals(Status.TASK_FINISHED)
+        || !task.getStatus().equals(Status.AT_WORK)){
             task.setStatus(Status.SCHEDULED_TASK);
         }
 
-        taskRepository.update(task);
-
-        return task;
+        return taskRepository.save(task);
     }
 
     @Override
     @Transactional
     public void delete(int taskId) {
-        taskRepository.delete(taskId);
+        taskRepository.deleteById(taskId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Task getById(int taskId) {
 
+        System.out.println(taskId + "task ID");
         return taskRepository.findById(taskId)
                 .orElseThrow(() -> new NoSuchElementException("Задача не обнаружена"));
     }
@@ -55,12 +58,13 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(readOnly = true)
     public List<Task> findAllTaskById(int consId) {
 
-        return taskRepository.findAllTaskById(consId);
+        return connectTaskWithEmployee.findAllTaskByEmplId(consId);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public boolean whoseTask(int consumerId, int taskId) {
-        return taskRepository.whoseTask(consumerId, taskId);
+    public List<Task> findAllTask() {
+        return taskRepository.findAll();
     }
+
 }

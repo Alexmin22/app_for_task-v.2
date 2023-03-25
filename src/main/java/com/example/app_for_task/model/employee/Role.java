@@ -1,29 +1,27 @@
 package com.example.app_for_task.model.employee;
 
-import javax.persistence.*;
-import lombok.Data;
+import com.example.app_for_task.model.tasks.Permission;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-@Entity
-@Table(name = "role")
-@Data
-public class Role implements GrantedAuthority {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id", nullable = false)
-    private int id;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-    @Column(name = "role")
-    private String role;
+@RequiredArgsConstructor
+public enum Role {
+    USER(Set.of(Permission.TASKS_READ, Permission.TASKS_WRITE)),
+    ADMIN(Set.of(Permission.TASKS_READ, Permission.TASKS_WRITE, Permission.TASKS_CREATE));
 
-    @Override
-    public String getAuthority() {
-        return getRole();
+    private final Set<Permission> permissions;
+
+    public Set<Permission> getPermissions() {
+        return permissions;
     }
 
-    @Override
-    public String toString() {
-        return role.split("_")[1].toLowerCase();
+    public Set<SimpleGrantedAuthority> getAuthorities() {
+        return getPermissions().stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+                .collect(Collectors.toSet());
     }
-
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Админ панель</title>
+</head>
+<body>
+
+<div align="center">
+  <h1>Добро пожаловать!</h1>
+  <br>
+
+  <a th:href="@{'home'}">Перейти к списку всех сотрудников</a>
+  <br>
+
+  <h2>Список всех актуальных заданий :</h2>
+
+  <a th:href="@{'createtask'}">Создать новое задание</a>
+  <br>
+
+    <table border="1">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Название задачи</th>
+        <th>Срок исполнения</th>
+        <th>Действия</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr th:each="task : ${tasks}">
+
+        <td th:text="${task.getId()}">ID</td>
+        <td th:text="${task.getTaskName()}">Название задачи</td>
+        <td th:text="${task.getDeadline()}">Срок исполнения</td>
+
+        <td>
+          <a th:href="@{/admin/{id}/edittask(id=${task.getId()})}">Редактировать</a>
+          <a th:href="@{/admin/{id}/showtask(id=${task.getId()})}">Подробнее</a>
+
+          <form th:method="DELETE" th:action="@{/admin/task/{id}(id=${task.getId()})}">
+            <input type="submit" value="УДАЛИТЬ ЗАДАНИЕ"/>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  <br>
+  <br>
+
+
+  <form th:action="@{/logout}" method="post">
+    <input type="submit" value="logout"/>
+  </form>
+</div>
+
+</body>
+</html>

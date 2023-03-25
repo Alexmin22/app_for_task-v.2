@@ -7,12 +7,53 @@
 <body>
 
 <div align="center">
-<h1>Добро пожаловать!
-    <!--<b>[[${request.userPrincipal.principal.username}]]</b> --!>
-</h1>
+    <h1>Добро пожаловать!</h1>
+    <br>
 
-<br>
-    <form th:action="@{/admin/logout}" method="post">
+    <a th:href="@{'alltasks'}">Перейти к списку всех заданий</a>
+    <br>
+
+    <h2>Список работников:</h2>
+
+    <a th:href="@{'createtask'}">Создать новое задание</a>
+    <br>
+    <a th:href="@{'createemployee'}">Добавить нового сотрудника</a>
+    <br>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>email</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="lst : ${list}">
+
+            <td th:text="${lst.getId()}">ID</td>
+            <td th:text="${lst.getEmail()}">Email</td>
+            <td th:text="${lst.getFirstName()}">Имя</td>
+            <td th:text="${lst.getLastName()}">Фамилия</td>
+
+            <td>
+                <a th:href="@{/admin/{id}/editemployee(id=${lst.getId()})}">Редактировать</a>
+                <a th:href="@{'admin/alltasks/' + ${lst.getId()}}">Список Задач</a>
+                <form th:method="DELETE" th:action="@{/admin/{id}(id=${lst.getId()})}">
+                    <input type="submit" value="УДАЛИТЬ"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+
+
+    <form th:action="@{/logout}" method="post">
         <input type="submit" value="logout"/>
     </form>
 </div>

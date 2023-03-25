@@ -1,10 +1,13 @@
 package com.example.app_for_task.model.tasks;
 
 import javax.persistence.*;
+
+import com.example.app_for_task.model.employee.Employee;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "tasks")
@@ -19,10 +22,17 @@ public class Task {
     private String taskName;
     @Column(name = "task_description")
     private String taskDesc;
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
-    @NotEmpty(message = "Заполните поле")
-    private Status status;
+            private Status status;
     @Column(name = "deadline")
     @NotEmpty(message = "Заполните поле")
-    private LocalDateTime deadline;
+    private LocalDate deadline;
+    @ManyToMany
+    @JoinTable(
+            name = "Employees_Tasks",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    private List<Employee> employeeList;
 }

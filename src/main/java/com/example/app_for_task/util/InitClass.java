@@ -6,8 +6,6 @@ import com.example.app_for_task.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.Set;
 
 //@Component
 @RequiredArgsConstructor
@@ -19,22 +17,22 @@ public class InitClass {
     //@PostConstruct
     public void createUser() {
 
-        Role role = new Role();
-        role.setRole("ROLE_USER");
-        Set<Role> set = new HashSet<>();
-        set.add(role);
 
-        Employee employee = new Employee(1, "User", "Userov", "100", set, null);
 
-        Role role2 = new Role();
-        role2.setRole("ROLE_ADMIN");
-        Set<Role> setTwo = new HashSet<>();
-        setTwo.add(role2);
-        setTwo.add(role);
-        Employee admin = new Employee(2, "Admin", "Adminov", "12345", setTwo, null);
+        Employee employee = new Employee("12345", "user@mail.ru", "User", "Userov", Role.USER);
+        Employee employee2 = new Employee("12345", "user2@mail.ru", "User2", "Userov", Role.USER);
+        Employee employee3 = new Employee("12345", "user3@mail.ru", "User3", "Userov", Role.USER);
+        Employee employee4 = new Employee("12345", "user4@mail.ru", "User4", "Userov", Role.USER);
+        Employee employee5 = new Employee("12345", "user5@mail.ru", "User5", "Userov", Role.USER);
 
-        employeeService.create(employee);
-        employeeService.create(admin);
+        Employee admin = new Employee("67890", "admin@mail.ru", "Admin", "Adminov", Role.ADMIN);
+
+        employeeService.add(employee);
+        employeeService.add(employee2);
+        employeeService.add(employee3);
+        employeeService.add(employee4);
+        employeeService.add(employee5);
+        employeeService.add(admin);
 
         System.out.println("Тестовые пользователи созданы");
 

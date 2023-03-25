@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleafe.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Добавить сотрудника</title>
+</head>
+<body>
+
+<h1>Здесь вы можете создать новое задание!</h1>
+<br>
+
+<form action="#" th:action="@{/admin/savetask}" th:object="${task}" method="post">
+  <ul>
+    <li><td>Название задачи:</td>
+      <td><input type="text" th:field="*{taskName}" /></td></li>
+
+    <br>
+    <li><td>Конкретное описание задачи:</td>
+      <td><input type="text" th:field="*{taskDesc}" /></td></li>
+
+    <br>
+    <li><td>Срок исполнения до:</td>
+      <td><input type="date" th:field="*{deadline}" /></td></li>
+
+    <br>
+    <li>Выбрать исполнителя: <select th:field="*{employeeList}">
+      <option th:each="employee : ${employeeList}"
+              th:value="${employee.getId()}"
+              th:text="#{${employee.getFirstName() + ' ' + employee.getLastName() + ' ' + employee.getEmail()}}"></option>
+    </select></li>
+
+    <br>
+    <td><button type="submit">Сохранить</button> </td>
+  </ul>
+</form>
+</body>
+</html>

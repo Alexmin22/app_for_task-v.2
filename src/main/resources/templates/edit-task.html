@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleafe.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактировать Задание</title>
+</head>
+<body>
+
+<h1>Здесь вы можете отредактировать задание</h1>
+<br>
+
+<form action="#" th:action="@{/admin/task/{id}(id=${task.getId()})}" th:object="${task}" th:method="patch">
+  <ul>
+
+    <li><td>Заголовок задания:</td>
+      <td><input type="text" th:field="*{taskName}" /></td></li>
+
+    <br>
+    <li><td>Подробное описание:</td>
+      <td><input type="text" th:field="*{taskDesc}" /></td></li>
+
+
+    <li><ul>
+      <li th:each="status : ${statusList}">
+        <input type="radio" th:field="*{status}" th:value="${status}" />
+        <label th:for="${status}"
+               th:text="${status.name()}">Статус задачи:</label>
+      </li>
+    </ul></li>
+
+    <br>
+    <li><td>Срок исполнения:</td>
+      <td><input type="date" th:field="*{deadline}" /></td></li>
+
+    <li>
+    <ul>
+      <li th:each="empl : ${emplList}">
+        <input type="checkbox" th:field="*{employeeList}"
+               th:value="${empl.getId()}"
+        th:checked="${task.getEmployeeList().contains(empl)? true: false}" />
+        <label th:for="${#ids.next('employeeList')}"
+               th:text="#{${empl.getFirstName() + ' ' + empl.getLastName() + ' ' + empl.getEmail()}}">Ответственные за выполнение:
+        </label>
+      </li>
+      </li>
+    </ul>
+    </li>
+    <br>
+
+    <td><button type="submit">Сохранить</button> </td>
+
+  </ul>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!--<li th:each="empl : ${emplList}">-->
+<!--  <input type="checkbox" th:field="*{employeeList}" th:value="${empl}" />-->
+<!--  <label th:for="${#ids.prev('employeeList')}"-->
+<!--         th:text="#{${empl.getFirstName() + ' ' + empl.getLastName() + ' ' + empl.getEmail()}}">Ответственные за выполнение:-->
+<!--  </label>-->
+<!--</li>-->
