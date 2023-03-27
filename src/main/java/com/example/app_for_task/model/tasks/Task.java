@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.example.app_for_task.model.employee.Employee;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,15 +21,16 @@ public class Task {
     @Column(name = "task_id", nullable = false)
     private int id;
     @Column(name = "task_name")
-    @NotEmpty(message = "Заполните поле")
+    @NotNull(message = "Заполните поле")
     private String taskName;
     @Column(name = "task_description")
+    @NotNull(message = "Заполните поле")
     private String taskDesc;
     @Enumerated(value = EnumType.ORDINAL)
     @Column(name = "status")
             private Status status;
     @Column(name = "deadline")
-    @NotEmpty(message = "Заполните поле")
+    @NotNull(message = "Заполните поле")
     private LocalDate deadline;
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(

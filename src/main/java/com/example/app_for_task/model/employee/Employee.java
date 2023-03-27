@@ -21,6 +21,7 @@ public class Employee implements UserDetails {
     private int id;
 
     @Column(name = "password")
+    @Size(min = 5, message = "Длина пароля не менее 5 символов")
     @NotNull
     private String password;
 
@@ -32,11 +33,13 @@ public class Employee implements UserDetails {
     @Column(name = "firstName")
     @NotEmpty(message = "Заполните имя")
     @Size(min = 2, max = 20, message = "Введите имя от 2 до 20 символов")
+    @NotNull
     private String firstName;
 
     @Column(name = "lastName")
     @NotEmpty(message = "Фамилия пуста")
-    @Size(min = 2, max = 20, message = "Введите фамилию от 2 до 20 символов")
+    @Size(min = 2, message = "Введите фамилию")
+    @NotNull
     private String lastName;
 
     @Enumerated(value = EnumType.STRING)

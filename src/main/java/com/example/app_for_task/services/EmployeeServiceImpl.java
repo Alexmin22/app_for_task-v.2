@@ -70,11 +70,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public void update(Employee employee, int id) {
-        Employee oldUser = getById(id);
 
-        if (oldUser.getPassword() == null || oldUser.getPassword().length() < 4) {
+        if (getById(id).getPassword() != null) {
+            employee.setPassword(passwordEncoder.encode(getById(id).getPassword()));
+
+        } else if (getById(id).getPassword() == null) {
             employee.setPassword(passwordEncoder.encode("12345"));
         }
+
+        employee.setTaskList(getById(id).getTaskList());
 
         employeeRepository.save(employee);
     }
