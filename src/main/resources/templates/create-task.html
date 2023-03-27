@@ -23,11 +23,13 @@
       <td><input type="date" th:field="*{deadline}" /></td></li>
 
     <br>
-    <li>Выбрать исполнителя: <select th:field="*{employeeList}">
-      <option th:each="employee : ${employeeList}"
-              th:value="${employee.getId()}"
-              th:text="#{${employee.getFirstName() + ' ' + employee.getLastName() + ' ' + employee.getEmail()}}"></option>
-    </select></li>
+    <li th:each="empl : ${employeeList}">
+        <input type="checkbox" th:field="*{employeeList}"
+               th:value="${empl.getId()}" />
+        <label th:for="${#ids.next('employeeList')}"
+               th:text="#{${empl.getFirstName() + ' ' + empl.getLastName() + ' ' + empl.getEmail()}}">Ответственные за выполнение:
+        </label>
+    </li>
 
     <br>
     <td><button type="submit">Сохранить</button> </td>

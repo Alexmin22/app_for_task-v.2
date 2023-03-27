@@ -12,7 +12,7 @@ import java.util.*;
 
 @Table(name = "employees")
 @Entity
-@Data
+@Setter @Getter
 @NoArgsConstructor
 public class Employee implements UserDetails {
     @Id
@@ -51,10 +51,10 @@ public class Employee implements UserDetails {
         this.role = role;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name = "Employees_Tasks",
-            joinColumns = @JoinColumn(name = "id"),
+            name = "tasks_employees",
+            joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )
     private List<Task> taskList;

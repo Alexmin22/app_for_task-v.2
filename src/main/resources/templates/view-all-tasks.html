@@ -18,7 +18,7 @@
     <a th:href="@{'createtask'}">Создать новое задание</a>
     <br>
 
-    <form action="#" th:action="@{/admin/savetask}" th:object="${task}" method="get">
+<!--    <form action="#" th:action="@{/admin/savetask}" th:object="${task}" method="get">-->
     <table border="1">
         <thead>
         <tr>
@@ -36,15 +36,16 @@
             <td th:text="${task.getId()}">ID</td>
             <td th:text="${task.getTaskName()}">Название задачи</td>
             <td th:text="${task.getDeadline()}">Срок исполнения</td>
-            <td><select th:field="*{employeeList}">
+
+            <td>
                 <option th:each="empl : ${task.getEmployeeList()}"
                         th:value="${empl.getId()}"
                         th:text="#{${empl.getLastName() + ' ' + empl.getFirstName() + ' ' + empl.getEmail()}}">
-                </option></select>
+                </option>
             </td>
 
             <td>
-                <a th:href="@{/admin/{id}(id=${task.getId()})/edittask}">Редактировать</a>
+                <a th:href="@{/admin/{id}/edittask(id=${task.getId()})}">Редактировать</a>
 
                 <form th:method="DELETE" th:action="@{/admin/task/{id}(id=${task.getId()})}">
                     <input type="submit" value="УДАЛИТЬ ЗАДАНИЕ"/>
@@ -53,7 +54,7 @@
         </tr>
         </tbody>
     </table>
-    </form>
+<!--    </form>-->
     <br>
     <br>
 
@@ -65,3 +66,14 @@
 
 </body>
 </html>
+
+
+<!--<td th:each="empl : ${task.getEmployeeList()}">-->
+<!--    <input type="checkbox" th:field="*{employeeList}"-->
+<!--           th:value="${empl.getId()}"-->
+<!--           th:checked="${task.getEmployeeList().contains(empl)? true: false}" />-->
+<!--    <label th:for="${#ids.next('employeeList')}"-->
+<!--           th:text="#{${empl.getFirstName() + ' ' + empl.getLastName() + ' ' + empl.getEmail()}}">Ответственные за выполнение:-->
+<!--    </label>-->
+<!--</td>-->
+<!--РАБОТАЕТ!!-->

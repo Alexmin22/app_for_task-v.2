@@ -9,7 +9,10 @@
 <h1>Здесь вы можете отредактировать задание</h1>
 <br>
 
-<form action="#" th:action="@{/admin/task/{id}(id=${task.getId()})}" th:object="${task}" th:method="patch">
+<a th:href="@{/admin/alltasks}">Назад к списку всех заданий</a>
+<br>
+
+<form action="#" th:action="@{/admin/task/{id}(id=${task.getId()})}" th:object="${task}" th:method="PATCH">
   <ul>
 
     <li><td>Заголовок задания:</td>
@@ -21,10 +24,10 @@
 
 
     <li><ul>
-      <li th:each="status : ${statusList}">
-        <input type="radio" th:field="*{status}" th:value="${status}" />
+      <li th:each="stat : ${statusList}">
+        <input type="radio" th:field="*{status}" th:value="${stat.name()}" />
         <label th:for="${status}"
-               th:text="${status.name()}">Статус задачи:</label>
+               th:text="${stat.name()}">Статус задачи:</label>
       </li>
     </ul></li>
 
@@ -37,11 +40,10 @@
       <li th:each="empl : ${emplList}">
         <input type="checkbox" th:field="*{employeeList}"
                th:value="${empl.getId()}"
-        th:checked="${task.getEmployeeList().contains(empl)? true: false}" />
+               th:checked="${task.getEmployeeList().contains(empl.getId())? true: false}" />
         <label th:for="${#ids.next('employeeList')}"
                th:text="#{${empl.getFirstName() + ' ' + empl.getLastName() + ' ' + empl.getEmail()}}">Ответственные за выполнение:
         </label>
-      </li>
       </li>
     </ul>
     </li>

@@ -30,7 +30,7 @@ public class TasksController {
     public String allTasks(Model model) {
         model.addAttribute("tasks", taskService.findAllTask());
 
-        return "start-tasks-list";
+        return "view-all-tasks";
     }
 
     @RequestMapping("/admin/createtask")
@@ -47,20 +47,20 @@ public class TasksController {
                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate deadLine,
                              Model model, @ModelAttribute("task") Task task) {
 
-        List<Employee> emplList = employeeService.getEmployeesOnly("USER");
+        //List<Employee> emplList = employeeService.getEmployeesOnly("USER");
 
         taskService.create(task);
 
         List<Task> tasks = taskService.findAllTask();
         model.addAttribute("tasks", tasks);
-        model.addAttribute("emplList", emplList);
+        //model.addAttribute("emplList", emplList);
         return "view-all-tasks";
     }
 
     @RequestMapping("/admin/{id}/edittask")
-    public String editEmployee(Model model, @PathVariable(name = "id") int id) {
+    public String editTask(Model model, @PathVariable(name = "id") int id) {
         List<Status> statusList = List.of(Status.SCHEDULED_TASK, Status.AT_WORK, Status.TASK_FINISHED);
-        List<Employee> emplList = taskService.getById(id).getEmployeeList();
+        //List<Employee> emplList = taskService.getById(id).getEmployeeList();
         List<Employee> list = employeeService.getEmployeesOnly("USER");
 
         model.addAttribute("emplList", list);
@@ -71,12 +71,13 @@ public class TasksController {
     }
 
     @PatchMapping("/admin/task/{id}")
-    public String updateEmployee(Model model, @ModelAttribute("task") Task task,
+    public String updateTask(Model model, @ModelAttribute("task") Task task,
                                  @PathVariable("id") int id) {
 
         taskService.update(task);
         List<Task> list = taskService.findAllTask();
         model.addAttribute("list", list);
+
         return "redirect:/admin/alltasks";
     }
 

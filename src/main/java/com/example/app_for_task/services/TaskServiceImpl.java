@@ -22,8 +22,6 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public Task create(Task task) {
             task.setStatus(Status.SCHEDULED_TASK);
-            //task.getEmployeeList()
-                           // .forEach(e -> connectTaskWithEmployee.connectConsWithTask(task.getId(), e.getId()));
 
         return taskRepository.save(task);
     }
@@ -31,11 +29,6 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public Task update(Task task) {
-        if (!task.getStatus().equals(Status.SCHEDULED_TASK) || !task.getStatus().equals(Status.TASK_FINISHED)
-        || !task.getStatus().equals(Status.AT_WORK)){
-            task.setStatus(Status.SCHEDULED_TASK);
-        }
-
         return taskRepository.save(task);
     }
 

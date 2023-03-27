@@ -27,6 +27,7 @@
             <th>email</th>
             <th>Имя</th>
             <th>Фамилия</th>
+            <th>Список Заданий</th>
             <th>Действия</th>
         </tr>
         </thead>
@@ -40,8 +41,15 @@
             <td th:text="${lst.getLastName()}">Фамилия</td>
 
             <td>
+                <option th:each="task : ${lst.getTaskList()}"
+                        th:value="${task.getId()}"
+                        th:text="#{${task.getTaskName() + ' |||сроки: ' + task.getDeadline()}}">
+                </option>
+            </td>
+
+            <td>
                 <a th:href="@{/admin/{id}/editemployee(id=${lst.getId()})}">Редактировать</a>
-                <a th:href="@{'admin/alltasks/' + ${lst.getId()}}">Список Задач</a>
+
                 <form th:method="DELETE" th:action="@{/admin/{id}(id=${lst.getId()})}">
                     <input type="submit" value="УДАЛИТЬ"/>
                 </form>
