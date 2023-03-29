@@ -2,19 +2,53 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
     <title>страница работника</title>
 </head>
 <body>
-
-<div align="center">
-<h1>Добро пожаловать!
-</h1>
-
+<div style="margin-left: 70px">
+<h1 class="text-center fs-1 text-decoration-underline" style="margin: 50px auto 60px;">Добро пожаловать!</h1>
 <br>
+
+    <a class="alert-link" style="color: #32475a;font-size: 25px;" th:href="@{/employee/{id}/editemployee(id=${employee.getId()})}">Редактировать данные о себе</a>
+
+    <ul class="list-unstyled" style="line-height: 20px;padding-top: 40px;">
+        <li style="font-style: italic;font-weight: 600;font-size: 25px;" th:text="${employee.getEmail()}">Ваш Email</li>
+        <br/>
+        <li style="font-weight: 600;font-size: 25px;" th:text="${employee.getFirstName()}">Ваш Email</li>
+        <br/>
+        <li style="font-weight: 600;font-size: 25px;" th:text="${employee.getLastName()}">Ваш Email</li>
+        <br/>
+        <li>
+            <ul class="text-center list-unstyled" th:each="task : ${employee.getTaskList()}">
+                <a class="alert-link" style="color: #32475a;font-size: 20px;" th:href="@{/employee/{id}/edittask(id=${task.getId()})}">
+                    Название задания: <li class="font-monospace" th:text="${task.getTaskName()}"></li></a><br/>
+                <a class="alert-link" style="color: #32475a;font-size: 20px;" th:href="@{/employee/{id}/edittask(id=${task.getId()})}">
+                    Сроки выполнения: <li class="text-muted" th:text="${task.getDeadline()}"></li></a><br/>
+                <a class="alert-link" style="color: #32475a;font-size: 20px;" th:href="@{/employee/{id}/edittask(id=${task.getId()})}">
+                    Стадия задания: <li th:text="${task.getStatus()}"></li></a><br/>
+
+                <li class="fw-bold; text-decoration-none" style="margin-bottom: 40px" th:if="${task.getEmployeeList().size() > 1}">Ответственные за выполнение
+                <ul class="list-group list-unstyled" th:each="empl : ${task.getEmployeeList()}">
+                    <li class="list-group-item" th:text="#{${empl.getFirstName() + ' ' + empl.getLastName()}}"></li>
+                </ul>
+                </li>
+            </ul>
+        </li>
+        <br/>
+    </ul>
     <form th:action="@{/logout}" method="post">
-        <input type="submit" value="logout"/>
+        <input class="btn btn-danger" type="submit" style="margin-bottom: 50px" value="Выход из системы"/>
     </form>
 </div>
 
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+</script>
 </body>
 </html>

@@ -25,7 +25,7 @@ public class InitClass {
         Employee employee4 = new Employee("12345", "user4@mail.ru", "User4", "Userov", Role.USER);
         Employee employee5 = new Employee("12345", "user5@mail.ru", "User5", "Userov", Role.USER);
 
-        Employee admin = new Employee("67890", "admin@mail.ru", "Admin", "Adminov", Role.ADMIN);
+        Employee admin = new Employee("00000", "admin@mail.ru", "Admin", "Adminov", Role.ADMIN);
 
         employeeService.add(employee);
         employeeService.add(employee2);

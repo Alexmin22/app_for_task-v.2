@@ -60,7 +60,6 @@ public class TasksController {
     @RequestMapping("/admin/{id}/edittask")
     public String editTask(Model model, @PathVariable(name = "id") int id) {
         List<Status> statusList = List.of(Status.SCHEDULED_TASK, Status.AT_WORK, Status.TASK_FINISHED);
-        //List<Employee> emplList = taskService.getById(id).getEmployeeList();
         List<Employee> list = employeeService.getEmployeesOnly("USER");
 
         model.addAttribute("emplList", list);
@@ -85,5 +84,26 @@ public class TasksController {
     public String delete(@PathVariable("id") int id) {
         taskService.delete(id);
         return "redirect:/admin/alltasks";
+    }
+
+    @RequestMapping("/employee/{id}/edittask")
+    public String editEmplTask(Model model, @PathVariable(name = "id") int id) {
+        List<Status> statusList = List.of(Status.SCHEDULED_TASK, Status.AT_WORK, Status.TASK_FINISHED);
+
+        model.addAttribute("task", taskService.getById(id));
+        model.addAttribute("statusList", statusList);
+
+        return "edit-task-empl";
+    }
+
+    @PatchMapping("/employee/task/{id}")
+    public String updateEmplTask(Model model, @ModelAttribute("task") Task task,
+                             @PathVariable("id") int id) {
+
+        Task currentTask = taskService.getById(id);
+        currentTask.setStatus(task.getStatus());
+        taskService.update(currentTask);
+
+        return "redirect:/employee/home";
     }
 }

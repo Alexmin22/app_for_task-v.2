@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,36 @@ public class AuthController {
         return "admin-home";
     }
 
+    @GetMapping("/employee/home")
+    public String emplHome(Model model, Principal principal) {
+        model.addAttribute("employee", employeeService.getByUsername(principal.getName()).get());
+
+        return "employee-home";
+    }
+
+    @RequestMapping("/employee/{id}/editemployee")
+    public String editEmployeeSelf(Model model, @PathVariable(name = "id") int id) {
+        model.addAttribute("employee", employeeService.getById(id));
+        return "edit-employee-self";
+    }
+
+    @PatchMapping("/employee/{id}")
+    public String updateEmployeeSelf(@ModelAttribute("employee") Employee empPass,
+                                 @PathVariable("id") int id) {
+
+        Employee currentEmployee = employeeService.getById(id);
+
+        if (!empPass.getPassword().equals(empPass.getConfirmPassword()) || empPass.getPassword()==null ||
+                empPass.getPassword().length() <= 4) {
+
+            return "edit-employee-self";
+        }
+        currentEmployee.setPassword(empPass.getPassword());
+        employeeService.update(currentEmployee, id);
+
+        return "redirect:/employee/home";
+    }
+
     @RequestMapping("/admin/createemployee")
     public String newEmployee(Model model, @ModelAttribute("employee") Employee employee) {
         List<Role> roles = new ArrayList<>();
@@ -52,6 +83,7 @@ public class AuthController {
         if (employee.getPassword()==null) {
             employee.setPassword("12345");
         }
+        employee.setConfirmPassword(employee.getPassword());
         employeeService.add(employee);
 
         List<Employee> list = employeeService.getEmployeesOnly("USER");

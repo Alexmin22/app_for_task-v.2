@@ -25,6 +25,9 @@ public class Employee implements UserDetails {
     @NotNull
     private String password;
 
+    @Transient
+    private String confirmPassword;
+
     @Column(unique = true, name = "email")
     @Email
     @NotNull
@@ -42,7 +45,7 @@ public class Employee implements UserDetails {
     @NotNull
     private String lastName;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = EnumType.ORDINAL)
     @Column(name = "role")
     private Role role;
 

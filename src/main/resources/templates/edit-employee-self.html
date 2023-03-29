@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Смена своих данных</title>
+</head>
+<body>
+
+<div style="margin-left: 70px">
+<h1 class="text-center fs-1 text-decoration-underline" style="margin: 50px auto 60px;">Здесь вы можете изменить свои данные.</h1><br/>
+
+<a class="alert-link" style="color: #32475a;font-size: 22px;" th:href="@{/employee/home}">Вернуться назад</a>
+<form action="#" style="padding-top: 40px;" th:action="@{/employee/{id}(id=${employee.getId()})}" th:object="${employee}" th:method="patch">
+    <h3>Поменять пароль:</h3><br/>
+    <ul class="list-unstyled">
+        <li><td>Введите новый пароль:</td>
+            <td><input type="password" th:field="*{password}" /></td></li>
+        <br>
+
+        <li><td>Подтвердите пароль:</td>
+            <td><input type="password" th:field="*{confirmPassword}"/></td></li>
+        <br>
+
+        <td><button class="btn btn-primary" type="submit">Сохранить</button> </td>
+    </ul>
+</form>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+</script>
+</body>
+</html>
