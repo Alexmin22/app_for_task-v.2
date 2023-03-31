@@ -10,36 +10,57 @@
 </head>
 <body>
 <div style="margin-left: 70px">
-<h1 class="text-center fs-1 text-decoration-underline" style="margin: 50px auto 60px;">Добро пожаловать!</h1>
+<h1 class="text-center fs-1 text-decoration-underline" style="margin: 50px auto 90px;">Добро пожаловать!</h1>
 <br>
 
     <a class="alert-link" style="color: #32475a;font-size: 25px;" th:href="@{/employee/{id}/editemployee(id=${employee.getId()})}">Редактировать данные о себе</a>
 
-    <ul class="list-unstyled" style="line-height: 20px;padding-top: 40px;">
-        <li style="font-style: italic;font-weight: 600;font-size: 25px;" th:text="${employee.getEmail()}">Ваш Email</li>
-        <br/>
-        <li style="font-weight: 600;font-size: 25px;" th:text="${employee.getFirstName()}">Ваш Email</li>
-        <br/>
-        <li style="font-weight: 600;font-size: 25px;" th:text="${employee.getLastName()}">Ваш Email</li>
-        <br/>
-        <li>
-            <ul class="text-center list-unstyled" th:each="task : ${employee.getTaskList()}">
-                <a class="alert-link" style="color: #32475a;font-size: 20px;" th:href="@{/employee/{id}/edittask(id=${task.getId()})}">
-                    Название задания: <li class="font-monospace" th:text="${task.getTaskName()}"></li></a><br/>
-                <a class="alert-link" style="color: #32475a;font-size: 20px;" th:href="@{/employee/{id}/edittask(id=${task.getId()})}">
-                    Сроки выполнения: <li class="text-muted" th:text="${task.getDeadline()}"></li></a><br/>
-                <a class="alert-link" style="color: #32475a;font-size: 20px;" th:href="@{/employee/{id}/edittask(id=${task.getId()})}">
-                    Стадия задания: <li th:text="${task.getStatus()}"></li></a><br/>
 
-                <li class="fw-bold; text-decoration-none" style="margin-bottom: 40px" th:if="${task.getEmployeeList().size() > 1}">Ответственные за выполнение
-                <ul class="list-group list-unstyled" th:each="empl : ${task.getEmployeeList()}">
-                    <li class="list-group-item" th:text="#{${empl.getFirstName() + ' ' + empl.getLastName()}}"></li>
-                </ul>
-                </li>
-            </ul>
-        </li>
-        <br/>
-    </ul>
+    <table class="table" style="margin-bottom: 5rem;">
+        <thead style="background-color: blanchedalmond;">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row" th:text="${employee.getId()}"></th>
+            <td th:text="${employee.getFirstName()}"></td>
+            <td th:text="${employee.getLastName()}"></td>
+            <td th:text="${employee.getEmail()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h3 class="alert-link  text-decoration-underline" style="color: #32475a;font-size: 25px;">Текущие задания:</h3>
+
+
+
+    <table class="table table-hover">
+        <thead style="background-color: blanchedalmond;">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Название задания</th>
+            <th scope="col">Сроки дедлайна</th>
+            <th scope="col">Стадия задания</th>
+            <th scope="col">Всё о задании</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${taskDTOList}">
+            <th scope="row" th:text="${task.getId()}" ></th>
+            <td th:text="${task.getTaskName()}"></td>
+            <td th:text="${task.getDeadline()}"></td>
+            <td th:text="${task.getStatus()}"></td>
+            <td><a th:href="@{/employee/{id}/edittask(id=${task.getId()})}" style="font-size: 1.3rem;background-color: #2727b9;padding: 3px 10px;border-radius: 6px;color: #b2e1e1;text-decoration: none;font-style: italic;">Подробнее</a></td>
+        </tr>
+        </tbody>
+    </table>
+
     <form th:action="@{/logout}" method="post">
         <input class="btn btn-danger" type="submit" style="margin-bottom: 50px" value="Выход из системы"/>
     </form>

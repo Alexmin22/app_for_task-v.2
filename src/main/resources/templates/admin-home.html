@@ -2,23 +2,88 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
     <title>Админ панель</title>
 </head>
 <body>
 
-<div align="center">
-    <h1>Добро пожаловать!</h1>
+<div style="margin-left: 70px">
+    <h1 class="text-center fs-1 text-decoration-underline" style="margin: 50px auto 90px;">Добро пожаловать!</h1>
     <br>
 
-    <a th:href="@{'alltasks'}">Перейти к списку всех заданий</a>
-    <br>
+    <a class="alert-link" style="color: #32475a;font-size: 25px;" th:href="@{'alltasks'}">Перейти к списку всех заданий</a>
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Создать новое задание</button>
+
+    <div class="modal fade" id="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Здесь вы можете создать новое задание!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="#" th:action="@{/admin/savetask}" th:object="${task}" method="post">
+                        <ul>
+                            <li><td>Название задачи:</td>
+                                <td><input type="text" th:field="*{taskName}" /></td></li>
+
+                            <br>
+                            <li><td>Конкретное описание задачи:</td>
+                                <td><input type="text" th:field="*{taskDesc}" /></td></li>
+
+                            <br>
+                            <li><td>Срок исполнения до:</td>
+                                <td><input type="date" th:field="*{deadline}" /></td></li>
+
+                            <br>
+                            <li th:each="empl : ${employeeList}">
+                                <input type="checkbox" th:field="*{employeeList}"
+                                       th:value="${empl.getId()}" />
+                                <label th:for="${#ids.next('employeeList')}"
+                                       th:text="#{${empl.getFirstName() + ' ' + empl.getLastName() + ' ' + empl.getEmail()}}">Ответственные за выполнение:
+                                </label>
+                            </li>
+
+                            <br>
+                            <td><button type="submit">Сохранить</button> </td>
+                        </ul>
+                    </form>
+
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal2">Добавить нового сотрудника</button>
+
+    <div class="modal fade" id="modal2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <h2>Список работников:</h2>
 
-    <a th:href="@{'createtask'}">Создать новое задание</a>
-    <br>
-    <a th:href="@{'createemployee'}">Добавить нового сотрудника</a>
-    <br>
 
     <table border="1">
         <thead>
@@ -33,24 +98,24 @@
         </thead>
 
         <tbody>
-        <tr th:each="lst : ${list}">
+        <tr th:each="employee : ${list}">
 
-            <td th:text="${lst.getId()}">ID</td>
-            <td th:text="${lst.getEmail()}">Email</td>
-            <td th:text="${lst.getFirstName()}">Имя</td>
-            <td th:text="${lst.getLastName()}">Фамилия</td>
+            <td th:text="${employee.getId()}">ID</td>
+            <td th:text="${employee.getEmail()}">Email</td>
+            <td th:text="${employee.getFirstName()}">Имя</td>
+            <td th:text="${employee.getLastName()}">Фамилия</td>
 
             <td>
-                <option th:each="task : ${lst.getTaskList()}"
+                <option th:each="task : ${employee.getTaskList()}"
                         th:value="${task.getId()}"
                         th:text="#{${task.getTaskName() + ' |||сроки: ' + task.getDeadline()}}">
                 </option>
             </td>
 
             <td>
-                <a th:href="@{/admin/{id}/editemployee(id=${lst.getId()})}">Редактировать</a>
+                <a th:href="@{/admin/{id}/editemployee(id=${employee.getId()})}">Редактировать</a>
 
-                <form th:method="DELETE" th:action="@{/admin/{id}(id=${lst.getId()})}">
+                <form th:method="DELETE" th:action="@{/admin/{id}(id=${employee.getId()})}">
                     <input type="submit" value="УДАЛИТЬ"/>
                 </form>
             </td>
@@ -66,5 +131,7 @@
     </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+</script>
 </body>
 </html>

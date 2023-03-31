@@ -29,7 +29,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admins/**").hasAuthority("tasks:create")
+                .antMatchers("/admin/**").hasAuthority("tasks:create")
                 .antMatchers("/employee/**").authenticated()
                 .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()

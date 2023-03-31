@@ -12,7 +12,7 @@
 <a th:href="@{/admin/alltasks}">Назад к списку всех заданий</a>
 <br>
 
-<form action="#" th:action="@{/admin/task/{id}(id=${task.getId()})}" th:object="${task}" th:method="PATCH">
+<form action="#" th:action="@{/admin/task/{id}(id=${taskDTO.getId()})}" th:object="${taskDTO}" th:method="PATCH">
   <ul>
 
     <li><td>Заголовок задания:</td>
@@ -38,10 +38,10 @@
     <li>
     <ul>
       <li th:each="empl : ${emplList}">
-        <input type="checkbox" th:field="*{employeeList}"
+        <input type="checkbox" th:field="*{employeeDTOList}"
                th:value="${empl.getId()}"
-               th:checked="${task.getEmployeeList().contains(empl.getId())? true: false}" />
-        <label th:for="${#ids.next('employeeList')}"
+               th:checked="${taskDTO.getEmployeeDTOList().contains(empl.getId()) ? true : false}" />
+        <label th:for="${#ids.next('employeeDTOList')}"
                th:text="#{${empl.getFirstName() + ' ' + empl.getLastName() + ' ' + empl.getEmail()}}">Ответственные за выполнение:
         </label>
       </li>

@@ -2,6 +2,8 @@ package com.example.app_for_task.controllers;
 
 import com.example.app_for_task.dto.EmployeeDTO;
 import com.example.app_for_task.dto.EmployeeDTOMapper;
+import com.example.app_for_task.dto.TaskDTO;
+import com.example.app_for_task.dto.TaskDTOMapper;
 import com.example.app_for_task.model.employee.Employee;
 import com.example.app_for_task.model.employee.Role;
 import com.example.app_for_task.services.EmployeeService;
@@ -21,54 +23,45 @@ public class AuthController {
 
     private final EmployeeService employeeService;
     private final EmployeeDTOMapper employeeDTOMapper;
-    private List<Employee> list;
-    private List<EmployeeDTO> listDto;
+
 
     @GetMapping("/api")
     public String hello() {
         return "index";
     }
 
-    @GetMapping("/admin/home")
-    public String adminHome( Model model) {
-        List<Employee> list = employeeService.getEmployeesOnly("USER");
-        model.addAttribute("list", list);
-
-        return "admin-home";
-    }
-
-    @GetMapping("/employee/home")
-    public String emplHome(Model model, Principal principal) {
-        model.addAttribute("employee", employeeService.getByUsername(principal.getName()).get());
-
-        return "employee-home";
-    }
 
     @RequestMapping("/employee/{id}/editemployee")
     public String editEmployeeSelf(Model model, @PathVariable(name = "id") int id) {
-        model.addAttribute("employee", employeeService.getById(id));
+        Employee employee = employeeService.getById(id);
+        model.addAttribute("employee", employeeDTOMapper.inDtoMap(employee));
+
         return "edit-employee-self";
     }
 
     @PatchMapping("/employee/{id}")
-    public String updateEmployeeSelf(@ModelAttribute("employee") Employee empPass,
+    public String updateEmployeeSelf(@ModelAttribute("employee") EmployeeDTO empPass,
                                  @PathVariable("id") int id) {
 
         Employee currentEmployee = employeeService.getById(id);
 
         if (!empPass.getPassword().equals(empPass.getConfirmPassword()) || empPass.getPassword()==null ||
                 empPass.getPassword().length() <= 4) {
+            empPass.setPassword(" ");
+            empPass.setConfirmPassword(" ");
 
             return "edit-employee-self";
         }
         currentEmployee.setPassword(empPass.getPassword());
         employeeService.update(currentEmployee, id);
+        empPass.setPassword(" ");
+        empPass.setConfirmPassword(" ");
 
         return "redirect:/employee/home";
     }
 
     @RequestMapping("/admin/createemployee")
-    public String newEmployee(Model model, @ModelAttribute("employee") Employee employee) {
+    public String newEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee) {
         List<Role> roles = new ArrayList<>();
         roles.add(Role.USER);
         roles.add(Role.ADMIN);
@@ -78,13 +71,13 @@ public class AuthController {
         return "create-employee";
     }
 
-    @RequestMapping(value = "/admin/saveempl", method = RequestMethod.GET)
-    public String createEmployee(Model model, @ModelAttribute("employee") Employee employee) {
+    @GetMapping("/admin/saveempl")
+    public String createEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee) {
         if (employee.getPassword()==null) {
             employee.setPassword("12345");
         }
         employee.setConfirmPassword(employee.getPassword());
-        employeeService.add(employee);
+        employeeService.add(employeeDTOMapper.fromDtoMap(employee));
 
         List<Employee> list = employeeService.getEmployeesOnly("USER");
         model.addAttribute("list", list);
@@ -93,16 +86,16 @@ public class AuthController {
 
     @RequestMapping("/admin/{id}/editemployee")
     public String editEmployee(Model model, @PathVariable(name = "id") int id) {
-        model.addAttribute("employee", employeeService.getById(id));
+        model.addAttribute("employee", employeeDTOMapper.inDtoMap(employeeService.getById(id)));
         return "edit-employee";
     }
 
     @PatchMapping("/admin/{id}")
-    public String updateEmployee(Model model, @ModelAttribute("employee") Employee employee,
+    public String updateEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee,
                                  @PathVariable("id") int id) {
 
         employee.setRole(Role.USER);
-        employeeService.update(employee, id);
+        employeeService.update(employeeDTOMapper.fromDtoMap(employee), id);
         List<Employee> list = employeeService.getEmployeesOnly("USER");
         model.addAttribute("list", list);
         return "redirect:/admin/home";
@@ -113,37 +106,4 @@ public class AuthController {
         employeeService.delete(id);
         return "redirect:/admin/home";
     }
-
-
-
-
-//    @GetMapping("/admin/home")
-//    public String adminHome() {
-//        return "admin-home";
-//    }
-    //    @PostConstruct
-//    public void loadData() {
-//        list = employeeService.getAllEmployees();
-//
-//    }
-
-//    @GetMapping("/admin")
-//    public String showEmployees(Model model) {
-//        model.addAttribute("employees", list);
-//
-//        return "admin";
-//    }
-
-//    @GetMapping("/login")
-//    public String getLoginPage() {
-//        return null;
-//    }
-
-
-//    @PostMapping("/register")
-//    public EmployeeDTO register( @RequestBody EmployeeDTO employeeDTO) {
-//        Employee employee = employeeService.create(employeeDTOMapper.fromDtoMap(employeeDTO));
-//
-//        return employeeDTOMapper.inDtoMap(employee);
-//    }
 }

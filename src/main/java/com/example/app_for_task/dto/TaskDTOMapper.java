@@ -11,5 +11,6 @@ import java.util.List;
 public interface TaskDTOMapper {
     TaskDTO inDtoMap(Task task);
     Task fromDtoMap(TaskDTO taskDTO);
-    List<TaskDTO> inDtoMap(List<Task> taskList);
+    List<TaskDTO> inDtoMapList(List<Task> taskList);
+    List<Task> fromDtoMapList(List<TaskDTO> taskDTOList);
 }

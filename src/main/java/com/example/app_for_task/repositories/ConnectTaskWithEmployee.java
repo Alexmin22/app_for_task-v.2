@@ -30,19 +30,4 @@ public class ConnectTaskWithEmployee {
         return employee.getTaskList();
     }
 
-
-    public void connectConsWithTask(int taskId, int emplId) {
-        Employee employee = employeeService.getById(emplId);
-        Task task = taskService.getById(taskId);
-
-        List<Task> taskList = employee.getTaskList();
-        taskList.add(task);
-        employee.setTaskList(taskList);
-
-        List<Employee> employeeList = task.getEmployeeList();
-        employeeList.add(employee);
-        task.setEmployeeList(employeeList);
-    }
-
-
 }
