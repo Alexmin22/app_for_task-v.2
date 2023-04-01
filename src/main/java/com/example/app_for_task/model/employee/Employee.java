@@ -25,8 +25,8 @@ public class Employee implements UserDetails {
     @NotNull
     private String password;
 
-    @Transient
-    private String confirmPassword;
+//    @Transient
+//    private String confirmPassword;
 
     @Column(unique = true, name = "email")
     @Email

@@ -2,31 +2,71 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
     <title>Админ панель</title>
 </head>
 <body>
 
-<div align="center">
-    <h1>Добро пожаловать!</h1>
+<div style="margin-left: 70px">
+    <h1 class="text-center fs-1 text-decoration-underline" style="margin: 50px auto 90px;">Добро пожаловать!</h1>
     <br>
 
-    <a th:href="@{'home'}">Перейти к списку всех сотрудников</a>
-    <br>
+    <a class="alert-link" style="color: #32475a;font-size: 25px;" th:href="@{'home'}">Перейти к списку всех сотрудников</a>
 
-    <h2>Список всех актуальных заданий :</h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal2">Добавить нового сотрудника</button>
 
-    <a th:href="@{'createtask'}">Создать новое задание</a>
-    <br>
+    <div class="modal fade" id="modal2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!--    <form action="#" th:action="@{/admin/savetask}" th:object="${task}" method="get">-->
-    <table border="1">
-        <thead>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Создать новое задание</button>
+
+    <div class="modal fade" id="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="card-title" style="margin-bottom: 40px;">Список всех заданий:</h2>
+
+
+    <table class="table table-hover">
+        <thead style="background-color: blanchedalmond;">
         <tr>
             <th>ID</th>
             <th>Название задачи</th>
             <th>Срок исполнения</th>
             <th>Исполнитель</th>
-            <th>Действия</th>
+            <th></th>
         </tr>
         </thead>
 
@@ -45,25 +85,30 @@
             </td>
 
             <td>
-                <a th:href="@{/admin/{id}/edittask(id=${task.getId()})}">Редактировать</a>
+                <div style="display: flex;justify-content: space-evenly;">
+                    <a th:href="@{/admin/{id}/edittask(id=${task.getId()})}" style="font-size: 1.3rem;background-color: #2727b9;padding: 3px 10px;border-radius: 6px;color: #b2e1e1;text-decoration: none;">
+                        Редактировать
+                    </a>
 
-                <form th:method="DELETE" th:action="@{/admin/task/{id}(id=${task.getId()})}">
-                    <input type="submit" value="УДАЛИТЬ ЗАДАНИЕ"/>
-                </form>
+                    <form th:method="DELETE" th:action="@{/admin/task/{id}(id=${task.getId()})}">
+                        <input class="btn btn-danger" type="submit" value="УДАЛИТЬ ЗАДАНИЕ"/>
+                    </form>
+                </div>
             </td>
         </tr>
         </tbody>
     </table>
-<!--    </form>-->
     <br>
     <br>
 
 
     <form th:action="@{/logout}" method="post">
-        <input type="submit" value="logout"/>
+        <input class="btn btn-danger" type="submit" style="margin-bottom: 50px" value="Выход из системы"/>
     </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+</script>
 </body>
 </html>
 

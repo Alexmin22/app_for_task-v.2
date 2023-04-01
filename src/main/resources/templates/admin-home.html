@@ -27,32 +27,32 @@
                 </div>
                 <div class="modal-body">
 
-                    <form action="#" th:action="@{/admin/savetask}" th:object="${task}" method="post">
-                        <ul>
-                            <li><td>Название задачи:</td>
-                                <td><input type="text" th:field="*{taskName}" /></td></li>
+<!--                    <form action="#" th:action="@{/admin/savetask}" th:object="${task}" method="post">-->
+<!--                        <ul>-->
+<!--                            <li><td>Название задачи:</td>-->
+<!--                                <td><input type="text" th:field="*{taskName}" /></td></li>-->
 
-                            <br>
-                            <li><td>Конкретное описание задачи:</td>
-                                <td><input type="text" th:field="*{taskDesc}" /></td></li>
+<!--                            <br>-->
+<!--                            <li><td>Конкретное описание задачи:</td>-->
+<!--                                <td><input type="text" th:field="*{taskDesc}" /></td></li>-->
 
-                            <br>
-                            <li><td>Срок исполнения до:</td>
-                                <td><input type="date" th:field="*{deadline}" /></td></li>
+<!--                            <br>-->
+<!--                            <li><td>Срок исполнения до:</td>-->
+<!--                                <td><input type="date" th:field="*{deadline}" /></td></li>-->
 
-                            <br>
-                            <li th:each="empl : ${employeeList}">
-                                <input type="checkbox" th:field="*{employeeList}"
-                                       th:value="${empl.getId()}" />
-                                <label th:for="${#ids.next('employeeList')}"
-                                       th:text="#{${empl.getFirstName() + ' ' + empl.getLastName() + ' ' + empl.getEmail()}}">Ответственные за выполнение:
-                                </label>
-                            </li>
+<!--                            <br>-->
+<!--                            <li th:each="empl : ${employeeList}">-->
+<!--                                <input type="checkbox" th:field="*{employeeList}"-->
+<!--                                       th:value="${empl.getId()}" />-->
+<!--                                <label th:for="${#ids.next('employeeList')}"-->
+<!--                                       th:text="#{${empl.getFirstName() + ' ' + empl.getLastName() + ' ' + empl.getEmail()}}">Ответственные за выполнение:-->
+<!--                                </label>-->
+<!--                            </li>-->
 
-                            <br>
-                            <td><button type="submit">Сохранить</button> </td>
-                        </ul>
-                    </form>
+<!--                            <br>-->
+<!--                            <td><button type="submit">Сохранить</button> </td>-->
+<!--                        </ul>-->
+<!--                    </form>-->
 
                 </div>
                 <div class="modal-footer"></div>
@@ -68,7 +68,6 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal">
-                        <span>&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -82,18 +81,18 @@
     </div>
 
 
-    <h2>Список работников:</h2>
+    <h2 class="card-title" style="margin-bottom: 40px;">Список работников:</h2>
 
 
-    <table border="1">
-        <thead>
+    <table class="table table-hover">
+        <thead style="background-color: blanchedalmond;">
         <tr>
             <th>ID</th>
             <th>email</th>
             <th>Имя</th>
             <th>Фамилия</th>
             <th>Список Заданий</th>
-            <th>Действия</th>
+            <th></th>
         </tr>
         </thead>
 
@@ -113,11 +112,15 @@
             </td>
 
             <td>
-                <a th:href="@{/admin/{id}/editemployee(id=${employee.getId()})}">Редактировать</a>
+                <div style="display: flex;justify-content: space-evenly;">
+                <a th:href="@{/admin/{id}/editemployee(id=${employee.getId()})}" style="font-size: 1.3rem;background-color: #2727b9;padding: 3px 10px;border-radius: 6px;color: #b2e1e1;text-decoration: none;">
+                Редактировать
+                </a>
 
                 <form th:method="DELETE" th:action="@{/admin/{id}(id=${employee.getId()})}">
-                    <input type="submit" value="УДАЛИТЬ"/>
+                    <input class="btn btn-danger" type="submit" value="УДАЛИТЬ"/>
                 </form>
+                </div>
             </td>
         </tr>
         </tbody>
@@ -127,7 +130,7 @@
 
 
     <form th:action="@{/logout}" method="post">
-        <input type="submit" value="logout"/>
+        <input class="btn btn-danger" type="submit" style="margin-bottom: 50px" value="Выход из системы"/>
     </form>
 </div>
 
