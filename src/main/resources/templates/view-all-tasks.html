@@ -190,11 +190,11 @@
 <!--                                                    </label>-->
 <!--                                                </li>-->
 
-                                            <li><select th:name="status">
+                                            <li><select th:name="status" id="status">
                                                 <option th:each="stat : ${statusList}"
                                                         th:value="${stat}"
-                                                th:text="${stat.name}"
-                                                th:checked="${stat.name().equals(task.getStatus().name())}">
+                                                        th:text="${stat.name}"
+                                                        th:selected="${stat==task.status}">
                                                 </option>
                                             </select></li>
 
@@ -215,12 +215,11 @@
 
                                             <li>Ответственные за выполнение:
                                             <li th:each="emp : ${emplList}">
-                                            <p th:text="${emp.getId()+' id '+emp.getFirstName()+' fName '+emp.getLastName()+' lName '
-                                            +emp.getEmail()+' mail '+emp.getTaskDTOList()+' List Tasks'}"></p>
-                                                <input type="checkbox" th:name="employeeDTOList"
-                                                       th:value="${emp.id}"/>
-                                                <label th:for="${#ids.next('employeeDTOList')}" th:text="${emp.getFirstName()+ ' '+emp.getLastName()}">
-                                                </label>
+                                                <input type="checkbox" th:name="employeeDTOList" id="employeeDTOList"
+                                                       th:value="${emp.id}" />
+                                            <label
+                                                    th:for="${#ids.prev('employeeDTOList')}"
+                                                    th:text="${emp.getFirstName()+ ' '+emp.getLastName()}"></label>
                                             </li>
                                             </li>
 
