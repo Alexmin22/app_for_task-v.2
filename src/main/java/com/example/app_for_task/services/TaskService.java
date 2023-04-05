@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TaskService {
     Task create(Task task);
-    Task update(Task task);
+    Task update(Task task, int id);
     void delete(int taskId);
     Task getById(int taskId);
     List<Task> findAllTaskById(int consId);

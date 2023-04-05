@@ -51,7 +51,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="task : ${taskDTOList}">
+        <tr th:each="task : ${taskList}">
             <th scope="row" th:text="${task.getId()}" ></th>
             <td th:text="${task.getTaskName()}"></td>
             <td th:text="${task.getDeadline()}"></td>

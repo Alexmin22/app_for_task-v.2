@@ -14,6 +14,7 @@ import java.util.*;
 @Entity
 @Setter @Getter
 @NoArgsConstructor
+@ToString
 public class Employee implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +25,6 @@ public class Employee implements UserDetails {
     @Size(min = 5, message = "Длина пароля не менее 5 символов")
     @NotNull
     private String password;
-
-//    @Transient
-//    private String confirmPassword;
 
     @Column(unique = true, name = "email")
     @Email
@@ -57,7 +55,7 @@ public class Employee implements UserDetails {
         this.role = role;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "tasks_employees",
             joinColumns = @JoinColumn(name = "employee_id"),

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Mapper(componentModel = "spring")
 public interface EmployeeDTOMapper {
     EmployeeDTO inDtoMap(Employee employee);
     Employee fromDtoMap(EmployeeDTO employeeDTO);

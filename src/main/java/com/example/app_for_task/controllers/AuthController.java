@@ -2,8 +2,8 @@ package com.example.app_for_task.controllers;
 
 import com.example.app_for_task.dto.EmployeeDTO;
 import com.example.app_for_task.dto.EmployeeDTOMapper;
-import com.example.app_for_task.dto.TaskDTO;
-import com.example.app_for_task.dto.TaskDTOMapper;
+//import com.example.app_for_task.dto.TaskDTO;
+//import com.example.app_for_task.dto.TaskDTOMapper;
 import com.example.app_for_task.model.employee.Employee;
 import com.example.app_for_task.model.employee.Role;
 import com.example.app_for_task.services.EmployeeService;
@@ -12,9 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -60,35 +57,40 @@ public class AuthController {
         return "redirect:/employee/home";
     }
 
-    @RequestMapping("/admin/createemployee")
-    public String newEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee) {
-        List<Role> roles = new ArrayList<>();
-        roles.add(Role.USER);
-        roles.add(Role.ADMIN);
+//    @RequestMapping("/admin/createemployee")
+//    public String newEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee) {
+//        List<Role> roles = new ArrayList<>();
+//        roles.add(Role.USER);
+//        roles.add(Role.ADMIN);
+//
+//        model.addAttribute("employee", employee);
+//        model.addAttribute("roles", roles);
+//        return "create-employee";
+//    }
 
-        model.addAttribute("employee", employee);
-        model.addAttribute("roles", roles);
-        return "create-employee";
-    }
-
-    @GetMapping("/admin/saveempl")
+    @PostMapping("/admin/home")
     public String createEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee) {
-        if (employee.getPassword()==null) {
-            employee.setPassword("12345");
+
+        Employee employee1 = employeeDTOMapper.fromDtoMap(employee);
+
+        if (employee1.getPassword()==null) {
+            employee1.setPassword("12345");
         }
-        employee.setConfirmPassword(employee.getPassword());
-        employeeService.add(employeeDTOMapper.fromDtoMap(employee));
 
-        List<Employee> list = employeeService.getEmployeesOnly("USER");
+        employeeService.add(employee1);
+
+        List<Employee> listEmp = employeeService.getEmployeesOnly("USER");
+        List<EmployeeDTO> list = employeeDTOMapper.inDtoMapList(listEmp);
         model.addAttribute("list", list);
-        return "admin-home";
+
+        return "redirect:/admin/home";
     }
 
-    @RequestMapping("/admin/{id}/editemployee")
-    public String editEmployee(Model model, @PathVariable(name = "id") int id) {
-        model.addAttribute("employee", employeeDTOMapper.inDtoMap(employeeService.getById(id)));
-        return "edit-employee";
-    }
+//    @RequestMapping("/admin/{id}/editemployee")
+//    public String editEmployee(Model model, @PathVariable(name = "id") int id) {
+//        model.addAttribute("employee", employeeDTOMapper.inDtoMap(employeeService.getById(id)));
+//        return "edit-employee";
+//    }
 
     @PatchMapping("/admin/{id}")
     public String updateEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee,
@@ -96,8 +98,11 @@ public class AuthController {
 
         employee.setRole(Role.USER);
         employeeService.update(employeeDTOMapper.fromDtoMap(employee), id);
-        List<Employee> list = employeeService.getEmployeesOnly("USER");
+
+        List<Employee> listEmp = employeeService.getEmployeesOnly("USER");
+        List<EmployeeDTO> list = employeeDTOMapper.inDtoMapList(listEmp);
         model.addAttribute("list", list);
+
         return "redirect:/admin/home";
     }
 

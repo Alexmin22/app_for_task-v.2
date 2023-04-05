@@ -1,5 +1,6 @@
 package com.example.app_for_task.services;
 
+import com.example.app_for_task.dto.EmployeeDTOMapper;
 import com.example.app_for_task.model.employee.Employee;
 import com.example.app_for_task.repositories.ConnectTaskWithEmployee;
 import com.example.app_for_task.repositories.NoSuchElementException;
@@ -17,19 +18,27 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final ConnectTaskWithEmployee connectTaskWithEmployee;
+    private final EmployeeDTOMapper employeeDTOMapper;
 
     @Override
     @Transactional
     public Task create(Task task) {
-            task.setStatus(Status.SCHEDULED_TASK);
 
+        System.out.println(task.getEmployeeList().toString() + " employee " + task.getEmployeeDTOList().toString()+" employeeDTO */*//*//*/*/**//**/*/*/*/**/*/*/*/*/**/*/*/*/*/*");
         return taskRepository.save(task);
     }
 
     @Override
     @Transactional
-    public Task update(Task task) {
-        return taskRepository.save(task);
+    public Task update(Task task, int id) {
+        Task oldTask = getById(id);
+        oldTask.setTaskName(task.getTaskName());
+        oldTask.setDeadline(task.getDeadline());
+        oldTask.setStatus(task.getStatus());
+        oldTask.setTaskDesc(task.getTaskDesc());
+        oldTask.setEmployeeDTOList(task.getEmployeeDTOList());
+        oldTask.setEmployeeList(task.getEmployeeList());
+        return taskRepository.save(oldTask);
     }
 
     @Override
