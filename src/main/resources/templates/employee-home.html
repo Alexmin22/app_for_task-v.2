@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
     <title>страница работника</title>
 </head>
 <body>
 <div style="margin-left: 70px">
-<h1 class="text-center fs-1 text-decoration-underline" style="margin: 50px auto 90px;">Добро пожаловать!</h1>
-<br>
+    <h1 class="text-center fs-1 text-decoration-underline" style="margin: 50px auto 90px;">Добро пожаловать!</h1>
+    <br>
 
-    <a class="alert-link" style="color: #32475a;font-size: 25px;" th:href="@{/employee/{id}/editemployee(id=${employee.getId()})}">Редактировать данные о себе</a>
+    <a class="alert-link" style="color: #32475a;font-size: 25px;"
+       th:href="@{/employee/{id}/editemployee(id=${employee.getId()})}">Редактировать данные о себе</a>
 
 
     <table class="table" style="margin-bottom: 5rem;">
@@ -39,7 +41,6 @@
     <h3 class="alert-link  text-decoration-underline" style="color: #32475a;font-size: 25px;">Текущие задания:</h3>
 
 
-
     <table class="table table-hover">
         <thead style="background-color: blanchedalmond;">
         <tr>
@@ -52,11 +53,79 @@
         </thead>
         <tbody>
         <tr th:each="task : ${taskList}">
-            <th scope="row" th:text="${task.getId()}" ></th>
+            <th scope="row" th:text="${task.getId()}"></th>
             <td th:text="${task.getTaskName()}"></td>
             <td th:text="${task.getDeadline()}"></td>
             <td th:text="${task.getStatus()}"></td>
-            <td><a th:href="@{/employee/{id}/edittask(id=${task.getId()})}" style="font-size: 1.3rem;background-color: #2727b9;padding: 3px 10px;border-radius: 6px;color: #b2e1e1;text-decoration: none;font-style: italic;">Подробнее</a></td>
+            <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        th:data-bs-target="${'#editModalTaskEmp' + task.getId()}">
+                    Подробнее
+                </button>
+
+                <div class="modal fade" th:id="${'editModalTaskEmp' + task.getId()}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Здесь вы можете ознакомиться с заданием и внести свои
+                                    комментарии.</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <form th:action="@{/employee/task/{id}(id=${task.getId()})}"
+                                      th:object="${task}"
+                                      th:method="PATCH">
+                                    <ul class="modal-body col-md text-center list-unstyled">
+                                        <li>Название адания:</li>
+                                        <li><input type="text" th:name="taskName" id="taskName"
+                                                   th:value="${task.taskName}" readonly/></li>
+
+                                        <br>
+                                        <li>Подробное описание:</li>
+                                        <li><input type="text" th:name="taskDesc" id="taskDesc"
+                                                   th:value="${task.taskDesc}" readonly/></li>
+
+                                        <br>
+                                        <li>Срок исполнения:</li>
+                                        <li><input type="date" th:name="deadline" id="deadline"
+                                                   th:value="${task.deadline}" readonly/></li>
+
+                                        <li>Статус задачи:
+                                        <li><select th:name="status" id="status">
+                                            <option th:each="stat : ${statusList}"
+                                                    th:value="${stat}"
+                                                    th:text="${stat.name}"
+                                                    th:selected="${stat==task.status}">
+                                            </option>
+                                        </select>
+                                        </li>
+                                        </li>
+
+                                        <li style=" display: inline-block;
+                                            font-style: italic; font-size: 17px;
+                                            margin: 18px auto;">
+
+                                            Ответственные за выполнение:
+
+                                            <option style="background-color: #01993761;"
+                                                    th:each="empl : ${task.getEmployeeList()}"
+                                                    th:value="${empl.id}"
+                                                    th:text="${empl.getLastName() + ' ' + empl.getFirstName() + ' ' + empl.getEmail()}">
+                                            </option>
+                                        </li>
+
+                                        <br>
+                                        <button class="btn  btn-success" type="submit">Сохранить</button>
+                                    </ul>
+                                </form>
+
+                            </div>
+                            <div class="modal-footer"></div>
+                        </div>
+                    </div>
+                </div>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -67,9 +136,8 @@
 </div>
 
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
 </script>
 </body>
 </html>

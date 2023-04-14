@@ -2,10 +2,7 @@ package com.example.app_for_task.dto;
 
 import com.example.app_for_task.model.employee.Employee;
 import com.example.app_for_task.repositories.EmployeeRepository;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.core.convert.converter.Converter;
@@ -17,13 +14,6 @@ import java.util.List;
 public class EmployeeDTOMapperImpl implements EmployeeDTOMapper, Converter<String, EmployeeDTO> {
 
     private final EmployeeRepository employeeRepository;
-
-//    private final TaskDTOMapper taskDTOMapper;
-
-//    @Autowired
-//    public EmployeeDTOMapperImpl(@NonNull @Lazy TaskDTOMapper taskDTOMapper) {
-//        this.taskDTOMapper = taskDTOMapper;
-//    }
 
     @Override
     public EmployeeDTO inDtoMap(Employee employee) {
@@ -40,7 +30,6 @@ public class EmployeeDTOMapperImpl implements EmployeeDTOMapper, Converter<Strin
         employeeDTO.setEmail( employee.getEmail() );
         employeeDTO.setRole( employee.getRole() );
         employeeDTO.setTaskDTOList(employee.getTaskList());
-//        employeeDTO.setTaskDTOList(taskDTOMapper.inDtoMapList(employee.getTaskList()));
 
         return employeeDTO;
     }
@@ -59,10 +48,7 @@ public class EmployeeDTOMapperImpl implements EmployeeDTOMapper, Converter<Strin
         employee.setFirstName( employeeDTO.getFirstName() );
         employee.setLastName( employeeDTO.getLastName() );
         employee.setRole( employeeDTO.getRole() );
-
         employee.setTaskList(employeeDTO.getTaskDTOList());
-
-        //employee.setTaskList(taskDTOMapper.fromDtoMapList(employeeDTO.getTaskDTOList()));
 
         return employee;
     }

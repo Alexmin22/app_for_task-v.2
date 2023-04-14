@@ -183,13 +183,6 @@
                                             <li><input type="date" th:name="deadline" id="deadline" th:value="${task.deadline}"/></li>
 
                                             <li>Статус задачи:
-<!--                                                <li th:each="stat : ${statusList}">-->
-<!--                                                    <input type="radio" th:name="status" id="status" th:value="${task.status}"-->
-<!--                                                           th:checked="${task.getStatus().equals(stat)}"/>-->
-<!--                                                    <label th:for="${stat}" th:text="${stat.name()}">Статус задачи:-->
-<!--                                                    </label>-->
-<!--                                                </li>-->
-
                                             <li><select th:name="status" id="status">
                                                 <option th:each="stat : ${statusList}"
                                                         th:value="${stat}"
@@ -200,23 +193,11 @@
 
                                             </li>
 
-<!--                                            <li th:each="empl : ${task.getEmployeeDTOList()}">-->
-<!--                                                <input type="checkbox" th:name="employeeList" id="empContains"-->
-<!--                                                       th:value="${empl.id}"-->
-<!--                                                       th:checked="${task.getEmployeeDTOList().contains(empl) ? true : false}"-->
-<!--                                                />-->
-<!--                                                <label th:for="${#ids.prev('employeeDTOList')}"-->
-<!--                                                       th:text="#{${emp.getFirstName() + ' ' + emp.getLastName() + ' ' + emp.getEmail()}}">-->
-<!--                                                    Ответственные за выполнение:-->
-<!--                                                </label>-->
-<!--                                            </li>-->
-
-
-
                                             <li>Ответственные за выполнение:
                                             <li th:each="emp : ${emplList}">
                                                 <input type="checkbox" th:name="employeeDTOList" id="employeeDTOList"
-                                                       th:value="${emp.id}" />
+                                                       th:value="${emp.id}"
+                                                th:checked="${emp.getTaskDTOList().contains(task) ? true : false}"/>
                                             <label
                                                     th:for="${#ids.prev('employeeDTOList')}"
                                                     th:text="${emp.getFirstName()+ ' '+emp.getLastName()}"></label>
@@ -268,6 +249,7 @@
                                             <li>Статус задачи:</li>
                                             <li><input type="text" th:name="status" id="taskStatus" th:value="${task.status}" readonly/></li>
                                             <br>
+
                                             <button class="btn btn-danger" type="submit">УДАЛИТЬ</button>
                                         </ul>
                                     </form>

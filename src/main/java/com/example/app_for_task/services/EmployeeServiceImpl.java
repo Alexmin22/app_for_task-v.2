@@ -1,14 +1,10 @@
 package com.example.app_for_task.services;
 
 import com.example.app_for_task.model.employee.Employee;
-import com.example.app_for_task.model.employee.Role;
 import com.example.app_for_task.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,4 +87,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return userPrimary.get();
     }
+
 }

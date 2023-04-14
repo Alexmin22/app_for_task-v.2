@@ -14,7 +14,7 @@ public class InitClass {
     private final EmployeeService employeeService;
 
 
-    //@PostConstruct
+//    @PostConstruct
     public void createUser() {
 
 

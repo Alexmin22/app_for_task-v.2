@@ -16,5 +16,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query(
             value = "SELECT * FROM employees WHERE role='USER'",
             nativeQuery = true)
-    public List<Employee> findEmployeesByRole(String role);
+    List<Employee> findEmployeesByRole(String role);
 }

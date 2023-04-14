@@ -57,17 +57,6 @@ public class AuthController {
         return "redirect:/employee/home";
     }
 
-//    @RequestMapping("/admin/createemployee")
-//    public String newEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee) {
-//        List<Role> roles = new ArrayList<>();
-//        roles.add(Role.USER);
-//        roles.add(Role.ADMIN);
-//
-//        model.addAttribute("employee", employee);
-//        model.addAttribute("roles", roles);
-//        return "create-employee";
-//    }
-
     @PostMapping("/admin/home")
     public String createEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee) {
 
@@ -85,12 +74,6 @@ public class AuthController {
 
         return "redirect:/admin/home";
     }
-
-//    @RequestMapping("/admin/{id}/editemployee")
-//    public String editEmployee(Model model, @PathVariable(name = "id") int id) {
-//        model.addAttribute("employee", employeeDTOMapper.inDtoMap(employeeService.getById(id)));
-//        return "edit-employee";
-//    }
 
     @PatchMapping("/admin/{id}")
     public String updateEmployee(Model model, @ModelAttribute("employee") EmployeeDTO employee,

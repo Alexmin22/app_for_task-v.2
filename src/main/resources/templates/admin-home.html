@@ -149,7 +149,7 @@
             <td>
                 <option th:each="task : ${employeeInner.getTaskDTOList()}"
                         th:value="${task.getId()}"
-                        th:text="#{${task.getTaskName() + ' |||сроки: ' + task.getDeadline()}}">
+                        th:text="${task.getTaskName() + ' |||сроки: ' + task.getDeadline()}">
                 </option>
             </td>
 

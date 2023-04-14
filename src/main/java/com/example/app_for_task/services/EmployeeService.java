@@ -1,6 +1,7 @@
 package com.example.app_for_task.services;
 
 import com.example.app_for_task.model.employee.Employee;
+import com.example.app_for_task.model.tasks.Task;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;

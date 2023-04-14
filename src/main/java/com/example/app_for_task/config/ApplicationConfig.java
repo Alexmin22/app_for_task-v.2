@@ -23,7 +23,6 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsService;
 
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -40,6 +39,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll()
                 .logoutSuccessUrl("/api");
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
